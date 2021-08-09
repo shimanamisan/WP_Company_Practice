@@ -92,3 +92,44 @@ function get_child_page($number = -1)
     $child_pages = new WP_Query($args);
     return $child_pages;
 }
+
+//================================
+// アイキャッチ表示
+//================================
+// サムネイル表示の有効化
+add_theme_support('post-thumbnails');
+
+// トップページのメイン画像用のサイズ指定
+add_image_size('top', '1077', '622', true);
+
+// 地域貢献活動一覧用画像のサイズ指定
+add_image_size('contribution', '557', '280', true);
+
+// トップページの地域貢献活動にて使用している画像用のサイズ指定
+add_image_size('front-contribution', '255', '189', true);
+
+// 企業情報・店舗情報一覧画像用のサイズ指定
+add_image_size('common', '465', '252', true);
+
+// 各ページのメイン画像用のサイズ指定
+add_image_size('detail', '1100', '300', true);
+
+// 検索一覧画像用のサイズ指定
+add_image_size('search', '168', '168', true);
+
+//================================
+// メイン画像の表示
+//================================
+// 各テンプレートごとのメイン画像を表示
+function get_main_image()
+{
+    global $post;
+
+    if(is_page()){
+        return get_the_post_thumbnail($post->ID, 'detail');
+    }elseif(is_category('news') || is_singular('post')){
+        return '<img src="'. get_template_directory_uri(). '/assets/images/bg-page-news.jpg" />';
+    }else{
+        return '<img src="'. get_template_directory_uri(). '/assets/images/bg-page-dummy.png" />';
+    }
+}

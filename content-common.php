@@ -4,7 +4,7 @@
         href="<?php the_permalink(); ?>"
     >
         <div class="common-image">
-            <?php the_post_thumbnail(); // 記事に紐付いた画像を表示させる ?>
+            <?php the_post_thumbnail('common'); // 記事に紐付いた画像を表示させる ?>
         </div>
         <div class="common-body">
             <p class="name"><?php the_title(); ?></p>
