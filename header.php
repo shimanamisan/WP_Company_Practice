@@ -126,10 +126,7 @@ wp_nav_menu(
                 <main>
                     <div class="page-contents">
                         <div class="page-head">
-                            <img
-                                src="<?php echo get_template_directory_uri(); ?>/assets/images/bg-page-dummy.png"
-                                alt=""
-                            >
+                            <?php echo get_main_image(); ?>
                             <div class="wrapper">
                                 <span class="page-title-en"></span>
                                 <h2 class="page-title"><?php echo get_main_title(); ?></h2>

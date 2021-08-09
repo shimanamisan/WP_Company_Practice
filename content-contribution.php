@@ -3,7 +3,7 @@
         href="<?php the_permalink(); ?>"
         class="cars-link"
     >
-        <div class="image"><?php the_post_thumbnail(); // 記事に紐付いた画像を表示させる ?></div>
+        <div class="image"><?php the_post_thumbnail('contribution'); // 記事に紐付いた画像を表示させる ?></div>
         <div class="body">
             <time><?php the_time('Y.m.d'); ?></p></time>
             <p class="name"><?php the_title(); ?></p>
