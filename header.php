@@ -58,14 +58,14 @@
                 </button>
                 <div class="header-nav">
                     <nav class="global-nav">
-<?php
-wp_nav_menu(
-	array (
-		'theme_location' => 'place_global',
-		'container' => false,
-	)
-);
-?>
+                        <?php
+                        wp_nav_menu(
+                            array(
+                                'theme_location' => 'place_global',
+                                'container' => false,
+                            )
+                        );
+                        ?>
                     </nav>
                     <form
                         class="search-form"
@@ -99,7 +99,7 @@ wp_nav_menu(
                 </div>
             </div>
         </header>
-        <?php if(is_front_page()): ?>
+        <?php if (is_front_page()) : ?>
         <section
             class="section-contents"
             id="keyvisual"
@@ -117,7 +117,7 @@ wp_nav_menu(
                 </p>
             </div>
         </section>
-        <?php else: ?>
+        <?php else : ?>
         <div class="wrap">
             <div
                 id="primary"
@@ -133,4 +133,10 @@ wp_nav_menu(
                             </div>
                         </div>
                         <div class="page-container">
-                            <?php endif;?>
+                            <?php
+                            // パンくずリストを表示
+                            if(function_exists('bread_crumb')){
+                                bread_crumb();
+                            }
+                            ?>
+                            <?php endif; ?>
