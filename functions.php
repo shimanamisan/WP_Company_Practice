@@ -126,7 +126,7 @@ function get_specific_posts($post_type, $taxonomy = null, $term = null, $number 
         ],
         'posts_per_page'   => $number,
     ];
-    
+
     $specific_posts = new WP_Query($args);
 
     debug($specific_posts);
@@ -176,3 +176,48 @@ function get_main_image()
     }
 }
 
+//================================
+// ページネーション
+//================================
+function pagination($pages = '', $range = 2)
+{
+    debug('ページネーション関数: ' . $pages);
+    // 表示するページ数（5ページ表示）
+    $showitems = ($range * 2) + 1;
+
+    // 現在のページの値
+    global $paged;
+    // デフォルトのページ
+    if (empty($paged)) $paged = 1;
+
+    if ($pages == '') {
+
+        global $wp_query;
+        $pages = $wp_query->max_num_pages; // 全ページを取得
+        if (!$pages) { // 全ページ数が空の場合は1とする
+            $pages = 1;
+        }
+    }
+
+    if (1 != $pages) // 全ページが1でない場合はページネーションを表示する
+    {
+        // ダブルクォーテーションはそのままでは出力できないのでエスケープする
+        echo "<div class=\"pagenation\">\n";
+        echo "<ul>\n";
+
+        // PREV：現在のページ値が1より大きい場合は表示
+        if ($paged > 1) echo "<li class=\"prev\"><a href='" . get_pagenum_link($paged - 1) . "'>Prev</a></li>\n ";
+
+        for ($i = 1; $i <= $pages; $i++) {
+            if (1 != $pages && (!($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $showitems)) {
+                // 三項演算子での条件分岐
+                echo ($paged == $i) ? "<li class=\"active\">" . $i . "</li>\n" : "<li><a href='" . get_pagenum_link($i) . "'>" . $i . "</a></li>\n";
+            }
+        }
+
+        // NEXT：総ページ数より現在のページ値が小さい場合は表示
+        if ($paged < $pages) echo "<li class=\"next\"><a href='" . get_pagenum_link($paged + 1) . "'>Next</a></li>\n";
+        echo "</ul>\n";
+        echo "</div>\n";
+    }
+}
