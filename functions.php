@@ -226,3 +226,37 @@ function pagination($pages = '', $range = 2)
         echo "</div>\n";
     }
 }
+
+//================================
+// 抜粋文の文字数を調整する
+//================================
+function cms_excerpt_more()
+{
+    return '...';
+}
+// 抜粋文の最後につく文字列を変更
+add_filter('excerpt_more', 'cms_excerpt_more');
+
+function cms_excerpt_length()
+{
+    return 80;
+}
+// 文字数を標準の110文字から80文字に変更する
+add_filter('excerpt_mblength', 'cms_excerpt_length');
+
+// 抜粋機能を固定ページに使えるように設定
+add_post_type_support('page', 'excerpt');
+
+function get_flexible_excerpt($number)
+{
+    $value = get_the_excerpt();
+    $value = wp_trim_words( $value, $number, '...');
+    return $value;
+}
+
+// get_the_excerpt関数で取得する文字列に改行タグを追加
+function apply_excerpt_br($value)
+{
+    return nl2br($value);
+}
+add_filter('get_the_excerpt', 'apply_excerpt_br');
