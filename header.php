@@ -71,13 +71,13 @@
                         class="search-form"
                         role="search"
                         method="get"
-                        action=""
+                        action="<?php echo esc_url(home_url()); ?>"
                     >
                         <div class="search-box">
                             <input
                                 type="text"
                                 class="search-input"
-                                name=""
+                                name="s"
                                 placeholder="キーワードを入力してください"
                             />
                             <button
