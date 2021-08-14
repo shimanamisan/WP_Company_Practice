@@ -1,6 +1,6 @@
 <?php if( ! is_front_page() ): ?>
-</div>
-</div>
+</div> <!-- #page-container -->
+</div><!-- #page-contents -->
 </main>
 </div>
 </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="footerContents-sitemap">
             <nav class="footer-nav">
-<?php
+                <?php
 wp_nav_menu(array(
     'theme_location' => 'place_footer',
     'container' => false,
