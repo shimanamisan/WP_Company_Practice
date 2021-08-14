@@ -56,10 +56,9 @@ function get_main_title()
 
         // 引数に投稿IDを指定することで、紐付いているカテゴリー情報をオブジェクトの配列形式で取得する
         $category_obj = get_the_category();
-
         // wp-content/debug.log へログを出力する
+        debug('get_main_title関数 ↓');
         debug($category_obj);
-
         return $category_obj[0]->name;
     } elseif (is_page()) { // 固定ページが表示されていたらtrueを返す
 
@@ -70,6 +69,9 @@ function get_main_title()
         debug('カテゴリーページが表示されている処理');
         // 現在のカテゴリー名を出力するテンプレートタグ
         return single_cat_title();
+    } elseif (is_search()) {
+
+        return 'サイト内検索結果';
     }
 }
 
@@ -166,11 +168,12 @@ add_image_size('search', '168', '168', true);
 function get_main_image()
 {
     global $post;
-
     if (is_page()) {
         return get_the_post_thumbnail($post->ID, 'detail');
     } elseif (is_category('news') || is_singular('post')) {
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-news.jpg" />';
+    } elseif (is_search()) {
+        return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-search.jpg" />';
     } else {
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-dummy.png" />';
     }
