@@ -4,6 +4,9 @@
 // デバッグ
 //================================
 // デバッグフラグ
+
+use function PHPSTORM_META\map;
+
 $debug_flg = true;
 
 // デバッグログ関数
@@ -116,6 +119,8 @@ function get_child_page($number = -1, $specified_id = null)
 // 第一引数から第三引数はデフォルト値を指定していおかないとエラーになる
 function get_specific_posts($post_type, $taxonomy = null, $term = null, $number = -1)
 {
+    debug('get_specific_posts関数の処理スタート');
+    
     $args = [
         // 取得したい投稿タイプを指定
         'post_type'   => $post_type,
@@ -133,7 +138,7 @@ function get_specific_posts($post_type, $taxonomy = null, $term = null, $number 
 
     $specific_posts = new WP_Query($args);
 
-    debug($specific_posts);
+    // debug($specific_posts);
 
     return $specific_posts;
 }
@@ -260,3 +265,20 @@ function apply_excerpt_br($value)
     return nl2br($value);
 }
 add_filter('get_the_excerpt', 'apply_excerpt_br');
+
+//================================
+// ウィジェット機能を有効化
+//================================
+function theme_widgets_init()
+{
+    register_sidebar(array(
+        'name'          => 'サイドバーウィジェットエリア',
+        'id'            => 'primary-widget-area',
+        'description'   => '固定ページのサイドバー',
+        'before_widget' => '<aside class="side-inner">',
+        'after_widget'  => '</aside>',
+        'before_title'  => '<h4 class="title">',
+        'after_title'   => '</h4>'
+    ));
+}
+add_action('widgets_init', 'theme_widgets_init');
