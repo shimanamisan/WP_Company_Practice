@@ -12,7 +12,7 @@
                 <?php
                     // 該当ページの抜粋データを取得する
                     // 抜粋データがない場合は本文を取得する
-                    echo get_the_excerpt(); 
+                    echo get_flexible_excerpt(40); 
                 ?>
             </p>
             <div class="buttonBox">
