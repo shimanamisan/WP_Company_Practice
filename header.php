@@ -7,14 +7,15 @@
         name="viewport"
         content="width=device-width,initial-scale=1"
     />
-    <meta
+    <!-- All in One SEO で設定する -->
+    <!-- <meta
         name="keywords"
         content="共通キーワード"
     />
     <meta
-        name="<?php bloginfo('description'); ?>"
+        name=""
         content="共通ディスクリプション"
-    />
+    /> -->
     <title><?php bloginfo('name'); ?></title>
     <link
         rel="shortcut icon"
