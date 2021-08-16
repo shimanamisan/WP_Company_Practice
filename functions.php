@@ -25,7 +25,6 @@ function debug($str)
     }
 }
 
-
 //================================
 // 各種関数
 //================================
@@ -40,7 +39,6 @@ function resource_enqueue_scripts()
     wp_enqueue_style('my_styles', get_template_directory_uri() . '/assets/css/styles.css', array());
 }
 add_action('wp_enqueue_scripts', 'resource_enqueue_scripts');
-
 
 // カスタムメニューを作成する
 register_nav_menus( // カスタムメニューを有効化するWordPress関数
@@ -67,7 +65,7 @@ function get_main_title()
 
         debug('固定ページが表示されている処理');
         return get_the_title();
-    } elseif (is_category()) { // カテゴリーページが表示されている場合にtrueを返す
+    } elseif (is_category() || is_tax()) { // カテゴリーページが表示されている場合にtrueを返す
 
         debug('カテゴリーページが表示されている処理');
         // 現在のカテゴリー名を出力するテンプレートタグ
@@ -77,6 +75,10 @@ function get_main_title()
         return 'サイト内検索結果';
     } elseif (is_404()) {
         return 'ページが見つかりません';
+    } elseif(is_singular('daily_contribution')){
+        global $post;
+        $term_obj = get_the_terms($post->ID, 'event');
+        return $term_obj[0]->name;
     }
 }
 
@@ -121,6 +123,13 @@ function get_specific_posts($post_type, $taxonomy = null, $term = null, $number 
 {
     debug('get_specific_posts関数の処理スタート');
     
+    if(!$term){
+        // debug('nullの否定');
+        $terms_obj = get_terms($taxonomy);
+        // debug($terms_obj);
+        $term = wp_list_pluck($terms_obj, 'slug');
+    }
+
     $args = [
         // 取得したい投稿タイプを指定
         'post_type'   => $post_type,
@@ -135,6 +144,8 @@ function get_specific_posts($post_type, $taxonomy = null, $term = null, $number 
         ],
         'posts_per_page'   => $number,
     ];
+
+    // debug($args);
 
     $specific_posts = new WP_Query($args);
 

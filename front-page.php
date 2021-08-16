@@ -31,11 +31,8 @@
             // 作成した子ページを取得する関数を実行
             // 店舗情報の固定ページ情報を取得できるようにfunctions.php を修正
             $shop_page = get_child_page(4, $shop_obj->ID);
-
             if ($shop_page->have_posts()) {
-
                 while ($shop_page->have_posts()) {
-
                     $shop_page->the_post();
 
             ?>
@@ -97,8 +94,11 @@
         <div class="articles">
             <?php
 
-            $contribution_page = get_child_page(3, $contribution_obj->ID);
+            // $contribution_page = get_child_page(3, $contribution_obj->ID);
+            $contribution_page = get_specific_posts('daily_contribution', 'event', '', 3);
             if ($contribution_page->have_posts()) {
+
+                debug($contribution_page);
                 while ($contribution_page->have_posts()) {
                     $contribution_page->the_post();
 
