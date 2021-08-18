@@ -97,8 +97,6 @@
             // $contribution_page = get_child_page(3, $contribution_obj->ID);
             $contribution_page = get_specific_posts('daily_contribution', 'event', '', 3);
             if ($contribution_page->have_posts()) {
-
-                debug($contribution_page);
                 while ($contribution_page->have_posts()) {
                     $contribution_page->the_post();
 
