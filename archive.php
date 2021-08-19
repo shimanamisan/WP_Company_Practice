@@ -9,7 +9,7 @@
           if (have_posts()) :
             while (have_posts()) : the_post();
               get_template_part('content-archive');
-              debug($wp_query->max_num_pages);
+              // debug($wp_query->max_num_pages);
             endwhile;
           endif;
           ?>
