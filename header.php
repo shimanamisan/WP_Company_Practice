@@ -125,7 +125,7 @@
                         <div class="page-head">
                             <?php echo get_main_image(); ?>
                             <div class="wrapper">
-                                <span class="page-title-en"></span>
+                                <span class="page-title-en"><?php echo get_main_en_title(); ?></span>
                                 <h2 class="page-title"><?php echo get_main_title(); ?></h2>
                             </div>
                         </div>

@@ -75,10 +75,34 @@ function get_main_title()
         return 'サイト内検索結果';
     } elseif (is_404()) {
         return 'ページが見つかりません';
-    } elseif(is_singular('daily_contribution')){
+    } elseif (is_singular('daily_contribution')) {
         global $post;
         $term_obj = get_the_terms($post->ID, 'event');
         return $term_obj[0]->name;
+    }
+}
+
+// メイン画像上にテンプレートごとの英語タイトルを表示
+function get_main_en_title()
+{
+    if (is_category()) {
+        $term_obj = get_queried_object();
+        $english_title = get_field('english_title', $term_obj->taxonomy . '_' . $term_obj->term_id);
+        return $english_title;
+    } elseif (is_singular('post')) {
+        $term_obj = get_the_category();
+        $english_title = get_field('english_title', $term_obj[0]->taxonomy . '_' . $term_obj[0]->term_id);
+        return $english_title;
+    } elseif (is_page() || is_singular('daily_contribution')) {
+        return get_field('english_title');
+    } elseif (is_search()) {
+        return 'Search Result';
+    } elseif (is_404()) {
+        return '404 Not Found';
+    } elseif (is_tax()) {
+        $term_obj = get_queried_object();
+        $english_title = get_field('english_title', $term_obj->taxonomy . '_' . $term_obj->term_id);
+        return $english_title;
     }
 }
 
@@ -122,8 +146,8 @@ function get_child_page($number = -1, $specified_id = null)
 function get_specific_posts($post_type, $taxonomy = null, $term = null, $number = -1)
 {
     debug('get_specific_posts関数の処理スタート');
-    
-    if(!$term){
+
+    if (!$term) {
         // debug('nullの否定');
         $terms_obj = get_terms($taxonomy);
         // debug($terms_obj);
@@ -186,12 +210,25 @@ add_image_size('search', '168', '168', true);
 function get_main_image()
 {
     global $post;
-    if (is_page()) {
-        return get_the_post_thumbnail($post->ID, 'detail');
+    if (is_page() || is_singular('daily_contribution')) {
+        $attachment_id = get_field('main_image');
+        debug('$attachment_id: ' . $attachment_id);
+        // return get_the_post_thumbnail($post->ID, 'detail');
+        if (is_front_page()) {
+            return wp_get_attachment_image($attachment_id, 'top');
+        } else {
+            return wp_get_attachment_image($attachment_id, 'detail');
+        }
     } elseif (is_category('news') || is_singular('post')) {
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-news.jpg" />';
     } elseif (is_search() || is_404()) {
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-search.jpg" />';
+    } elseif (is_tax('event')) {
+        debug('イベントのメイン画像を表示');
+        $term_obj = get_queried_object();
+        $image_id = get_field('event_image', $term_obj->taxonomy . '_' . $term_obj->term_id);
+        debug('$image_id: ' . $image_id);
+        return wp_get_attachment_image($image_id, 'detail');
     } else {
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-dummy.png" />';
     }
@@ -266,7 +303,7 @@ add_post_type_support('page', 'excerpt');
 function get_flexible_excerpt($number)
 {
     $value = get_the_excerpt();
-    $value = wp_trim_words( $value, $number, '...');
+    $value = wp_trim_words($value, $number, '...');
     return $value;
 }
 
