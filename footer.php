@@ -1,10 +1,15 @@
-<?php if( ! is_front_page() ): ?>
+<?php if (!is_front_page()) : ?>
 </div> <!-- #page-container -->
 </div><!-- #page-contents -->
 </main>
 </div>
 </div>
-<?php endif; ?>
+<?php endif;
+
+if (!$footer_cache = get_transient('footer_cache')):
+    // 出力のバッファリングを有効にする
+    ob_start();
+?>
 
 <footer
     class="footer"
@@ -29,12 +34,12 @@
         <div class="footerContents-sitemap">
             <nav class="footer-nav">
                 <?php
-wp_nav_menu(array(
-    'theme_location' => 'place_footer',
-    'container' => false,
-));
+                wp_nav_menu(array(
+                    'theme_location' => 'place_footer',
+                    'container' => false,
+                ));
 
-?>
+                ?>
             </nav>
         </div>
         <ul class="sns-navi">
@@ -47,6 +52,14 @@ wp_nav_menu(array(
         <small class="copyright-text">&#169; 2019 PACIFIC MALL DEVELOPMENT CO.,LTD.</small>
     </p>
 </footer>
+<?php
+$footer_cache = ob_get_clean();
+set_transient('footer_cache', $footer_cache, 60 * 5);
+else:
+    echo $footer_cache;
+endif;
+?>
+
 </div><!-- /.container -->
 <?php wp_footer(); ?>
 </body>
