@@ -1,12 +1,11 @@
 <?php
 
+use function PHPSTORM_META\map;
+
 //================================
 // デバッグ
 //================================
 // デバッグフラグ
-
-use function PHPSTORM_META\map;
-
 $debug_flg = true;
 
 // デバッグログ関数
